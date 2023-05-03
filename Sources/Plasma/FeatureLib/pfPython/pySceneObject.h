@@ -112,6 +112,7 @@ public:
     virtual ST::string GetName();
     virtual std::vector<PyObject*> GetResponders(); // pyKey list
     virtual std::vector<PyObject*> GetPythonMods(); // pyKey list
+    virtual std::vector<PyObject*> GetImageLibMods(); // pyKey list
     //
     // deteremine if this object (or the first object in the list)
     // ...is locally owned

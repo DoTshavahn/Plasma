@@ -375,6 +375,18 @@ void plAutoUIBase::AddPickGrassComponentButton(int16_t id, const ST::string& scr
     fParams.push_back(param);
 }
 
+void plAutoUIBase::AddPickLayerButton(int16_t id, const ST::string& scriptName, const ST::string& name, int vid, std::unordered_set<ST::string> vstates)
+{
+    ST::string scriptNameNew = !scriptName.empty() ? scriptName : IMakeScriptName(name);
+
+    fDesc->AddParam(id, ST2M(scriptNameNew), TYPE_REFTARG, 0, 0,
+        p_end,
+        p_end);
+    plAutoUIParam* param = new plPickMaterialButtonParam(id, name);
+    param->SetVisInfo(vid, std::move(vstates));
+    fParams.push_back(param);
+}
+
 INT_PTR CALLBACK plAutoUIBase::ForwardDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     plAutoUIBase *pthis = nullptr;
@@ -500,17 +512,8 @@ void plAutoUIBase::ICreateControls()
 
     RECT rect;
     GetWindowRect(fhDlg, &rect);
+    MoveWindow(fhDlg, rect.left, rect.top, rect.right - rect.left, yOffset + 5, FALSE);
 
-    // This used to use MoveWindow() to resize the rollup, but in Max 2022,
-    // that does not seem to work anymore. So, we now do the same thing
-    // that WM_SIZE_PANEL does.
-    IRollupWindow* rollup = GetCOREInterface()->GetCommandPanelRollup();
-    int index = rollup->GetPanelIndex(fhDlg);
-
-    if (index >= 0)
-        rollup->SetPageDlgHeight(index, yOffset + 5);
-
-    InvalidateRect(fhDlg, nullptr, TRUE);
 }
 
 void plAutoUIBase::CreateAutoRollup(IParamBlock2 *pb)

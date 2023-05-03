@@ -52,9 +52,11 @@ set(pfPython_SOURCES
     pyGUIPopUpMenu.cpp
     pyGUISkin.cpp
     pyImage.cpp
+    pyImageLibMod.cpp
     pyJournalBook.cpp
     pyKey.cpp
     pyKeyMap.cpp
+    pyLayer.cpp
     pyMarkerMgr.cpp
     pyMatrix44.cpp
     pyMoviePlayer.cpp
@@ -228,9 +230,11 @@ set(pfPython_GLUE
     pyGUIPopUpMenuGlue.cpp
     pyGUISkinGlue.cpp
     pyImageGlue.cpp
+    pyImageLibModGlue.cpp
     pyJournalBookGlue.cpp
     pyKeyGlue.cpp
     pyKeyMapGlue.cpp
+    pyLayerGlue.cpp
     pyMarkerMgrGlue.cpp
     pyMatrix44Glue.cpp
     pyMoviePlayerGlue.cpp
@@ -292,6 +296,7 @@ target_link_libraries(
         plGImage
         plGLight
         plInputCore
+        plSurface
         plModifier
         plNetClient
         plNetClientComm

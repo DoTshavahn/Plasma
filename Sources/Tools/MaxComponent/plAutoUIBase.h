@@ -79,7 +79,7 @@ public:
     //
     // 'scriptName' is a MaxScript visible name.  Here's what the help file says:
     //   "They should begin with an alpha character, have only alphanumerics, and have no
-    //    spaces, punctuations, etc.  The convention for multi-uint16_t names is to use
+    //    spaces, punctuations, etc.  The convention for multi-word names is to use
     //    studly-caps, eg, paintRadius."
     //  (Note: if this is nil, one will be generated from 'name'.)
     //
@@ -120,6 +120,7 @@ public:
     
     void AddDropDownList(int16_t id, const ST::string& scriptName, const ST::string& name, int vid, std::unordered_set<ST::string> vstates, std::vector<ST::string> options);
     void AddPickGrassComponentButton(int16_t id, const ST::string& scriptName, const ST::string& name, int vid, std::unordered_set<ST::string> vstates);
+    void AddPickLayerButton(int16_t id, const ST::string& scriptName, const ST::string& name, int vid, std::unordered_set<ST::string> vstates);
 
     void CreateAutoRollup(IParamBlock2 *pb);
     void DestroyAutoRollup();

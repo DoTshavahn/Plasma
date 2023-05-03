@@ -5385,6 +5385,12 @@ Returns key code for controlCode"""
         """Forces write of the keymap file"""
         pass
 
+    class ptLayer:
+    """Plasma Layer class"""
+    def __init__(self,layerKey):
+        """None"""
+        pass
+
 class ptMarkerMgr:
     """Marker manager accessor class"""
     def __init__(self):
@@ -6058,6 +6064,10 @@ If there are more then one attached, get the first one"""
 
     def getPythonMods(self):
         """Returns list of ptKeys of the python modifiers attached to this sceneobject"""
+        pass
+
+    def getResponderState(self):
+        """Return the responder state (if we are a responder)"""
         pass
 
     def getResponderState(self):

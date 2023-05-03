@@ -40,43 +40,43 @@ You can contact Cyan Worlds, Inc. by email legal@cyan.com
 
 *==LICENSE==*/
 
-#ifndef plImageLibMod_inc
-#define plImageLibMod_inc
+#include <Python.h>
+#include "pyKey.h"
+#include "hsResMgr.h"
 
-#include <vector>
+#include "pnKeyedObject/plUoid.h"
+#include "pyImageLibMod.h"
 
-#include "pnModifier/plSingleModifier.h"
-
-class plBitmap;
-
-class plImageLibMod : public plSingleModifier
+void pyImageLibMod::setKey(pyKey& ilmKey) // only for python glue, do NOT call
 {
-protected:
+    if (fModifier && fModifierKey)
+        fModifierKey->UnRefObject();
 
-    std::vector<plBitmap *> fImages;
+    fModifier = nullptr;
+    fModifierKey = ilmKey.getKey();
+}
 
-    bool IEval(double secs, float del, uint32_t dirty) override { return false; }
+plBitmap* pyImageLibMod::GetImage(const ST::string& name)
+{
+    plBitmap* image;
+    if (fModifier)
+        image = fModifier->GetImage(name);
+    else
+        image = plImageLibMod::ConvertNoRef(fModifierKey->ObjectIsLoaded())->GetImage(name);
+    return image;
+}
 
-public:
-    plImageLibMod();
-    virtual ~plImageLibMod();
+std::vector<ST::string> pyImageLibMod::GetImageNames()
+{
+    std::vector<ST::string> nameList;
+    plImageLibMod* mod;
 
-    CLASSNAME_REGISTER( plImageLibMod );
-    GETINTERFACE_ANY( plImageLibMod, plSingleModifier );
+    if (fModifier)
+        mod = fModifier;
+    else
+        mod = plImageLibMod::ConvertNoRef(fModifierKey->ObjectIsLoaded());
 
-    bool MsgReceive(plMessage* msg) override;
-    
-    void Read(hsStream* stream, hsResMgr* mgr) override;
-    void Write(hsStream* stream, hsResMgr* mgr) override;
-
-    enum Refs
-    {
-        kRefImage = 0
-    };
-
-    size_t  GetNumImages() const { return fImages.size(); }
-    plBitmap* GetImage(const ST::string&) const;
-    const std::vector<ST::string> GetImageNames() const;
-};
-
-#endif // plImageLibMod_inc
+    for (auto name : mod->GetImageNames())
+        nameList.push_back(name);
+    return nameList;
+}
